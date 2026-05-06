@@ -828,6 +828,14 @@ footer {
 </div>
 
 <!-- CONNECT STRIP -->
+<!-- MUNDO MAGICO BANNER -->
+<div style="background:linear-gradient(135deg,#020810 0%,#0a1628 50%,#020810 100%);padding:48px;text-align:center;border-top:1px solid rgba(168,192,216,0.12);border-bottom:1px solid rgba(168,192,216,0.12);">
+  <span style="font-size:0.58rem;letter-spacing:0.4em;text-transform:uppercase;color:#c8a84a;display:block;margin-bottom:16px;">✦ Explora otro mundo ✦</span>
+  <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:700;color:#e8f0ff;margin-bottom:12px;letter-spacing:-0.01em;">Mundo <em style="font-style:italic;color:#a8c0d8;">Mágico</em></h2>
+  <p style="font-family:'EB Garamond',serif;font-style:italic;font-size:1rem;color:rgba(168,192,216,0.55);margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;">"El mundo de los sueños, en que todos somos capaces de ser diferentes... un mundo paralelo en el cual podemos vivir mejor"</p>
+  <a href="/mundo-magico.html" style="display:inline-flex;align-items:center;gap:10px;padding:13px 28px;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:400;text-decoration:none;border:1px solid rgba(168,192,216,0.3);color:#d4e8ff;background:rgba(168,192,216,0.06);transition:all 0.3s;border-radius:2px;">🌙 Entrar al sueño</a>
+</div>
+
 <div class="connect-strip">
   <div class="connect-text">¿Lista para transformar tus cejas? ✨</div>
   <div class="connect-btns">
@@ -1022,10 +1030,11 @@ function filterPosts(label, btn) {
 // ── FETCH BLOGGER RSS ──
 async function loadBlog() {
   try {
-    const url = `https://unplanetaoficial.blogspot.com/feeds/posts/default?alt=json&max-results=20`;
+    const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://unplanetaoficial.blogspot.com/feeds/posts/default?alt=json&max-results=20')}`;
     const res = await fetch(url);
     if (!res.ok) throw new Error('Feed error');
-    const data = await res.json();
+    const raw = await res.json();
+    const data = JSON.parse(raw.contents);
     const entries = data.feed?.entry || [];
 
     if (entries.length === 0) throw new Error('No entries');
