@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un Planeta — Janeth Salazar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@200;300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #1a0f08;
+  --off-black: #f5ede0;
+  --gold: #b8860b;
+  --gold-dim: #9a7010;
+  --gold-bright: #d4a820;
+  --cream: #fdf8f0;
+  --warm: #f5ede0;
+  --text: #1a0f08;
+  --muted: #6a5040;
+  --border: rgba(184,134,11,0.2);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  background: var(--cream);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.masthead-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 48px;
+  border-bottom: 1px solid rgba(201,169,110,0.12);
+}
+
+.masthead-date {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  font-weight: 300;
+}
+
+.masthead-back {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.masthead-back:hover { color: var(--gold); }
+
+.masthead-center {
+  padding: 56px 48px 48px;
+  text-align: center;
+  position: relative;
+}
+
+.masthead-eyebrow {
+  font-size: 0.58rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.masthead-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 14vw, 10rem);
+  font-weight: 900;
+  color: #1a0f08;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+
+.masthead-title em {
+  font-style: italic;
+  color: #c0282b;
+}
+
+.masthead-tagline {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: rgba(26,15,8,0.55);
+  margin-top: 24px;
+  letter-spacing: 0.04em;
+}
+
+.masthead-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin-top: 40px;
+}
+
+/* ── NAV ── */
+nav {
+  background: #1a0f08;
+  border-bottom: 1px solid rgba(184,134,11,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  padding: 0 48px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-inner a {
+  display: inline-block;
+  padding: 16px 22px;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(253,248,240,0.5);
+  text-decoration: none;
+  transition: color 0.3s;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  font-weight: 400;
+}
+
+.nav-inner a:hover, .nav-inner a.active {
+  color: #c9a96e;
+  border-bottom-color: #c0282b;
+}
+
+/* ── MAIN LAYOUT ── */
+.page-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 48px 100px;
+}
+
+@media (max-width: 768px) {
+  .masthead-top, .masthead-center { padding: 16px 24px; }
+  .nav-inner { padding: 0 16px; }
+  .page-wrapper { padding: 0 20px 80px; }
+}
+
+/* ── CATEGORY FILTER ── */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  padding: 32px 0 28px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-wrap: wrap;
+}
+
+.filter-bar::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  padding: 7px 18px;
+  border-radius: 2px;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.25s;
+  font-family: 'Jost', sans-serif;
+  white-space: nowrap;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--cream);
+  color: var(--gold);
+  border-color: var(--black);
+}
+
+/* ── LOADING STATE ── */
+.loading-state {
+  text-align: center;
+  padding: 80px 0;
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text {
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── HERO POST (featured) ── */
+.hero-post {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-bottom: 2px;
+  min-height: 520px;
+  background: var(--warm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.hero-post:hover { opacity: 0.92; }
+
+@media (max-width: 768px) {
+  .hero-post { grid-template-columns: 1fr; min-height: auto; }
+}
+
+.hero-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: #1a1510;
+}
+
+.hero-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+  min-height: 320px;
+}
+
+.hero-post:hover .hero-img-wrap img { transform: scale(1.04); }
+
+.hero-no-img {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  background: linear-gradient(135deg, #0f0d09 0%, #1a1510 50%, #0a0804 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-no-img-glyph {
+  font-size: 5rem;
+  opacity: 0.15;
+}
+
+.hero-content {
+  padding: 56px 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  background: #1a0f08;
+}
+
+@media (max-width: 768px) {
+  .hero-content { padding: 36px 28px; }
+}
+
+.post-category {
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #c0282b;
+  margin-bottom: 18px;
+  font-weight: 500;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.12;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.hero-excerpt {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.05rem;
+  color: rgba(253,248,240,0.6);
+  line-height: 1.75;
+  margin-bottom: 32px;
+  flex: 1;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.post-date {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  font-weight: 300;
+}
+
+.read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201,169,110,0.4);
+  padding-bottom: 2px;
+  transition: all 0.3s;
+}
+
+.read-link:hover { gap: 14px; border-color: var(--gold); }
+
+/* ── GRID POSTS ── */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 52px 0 28px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #c0282b;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+@media (max-width: 900px) {
+  .posts-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 580px) {
+  .posts-grid { grid-template-columns: 1fr; }
+}
+
+/* ── GRID CARD ── */
+.post-card {
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.post-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(10,8,4,0.12); }
+
+.card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: #f0e8dc;
+}
+
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+.post-card:hover .card-img-wrap img { transform: scale(1.06); }
+
+.card-no-img {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--warm) 0%, #e8ddd0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-no-img-glyph { font-size: 2.5rem; opacity: 0.2; }
+
+.card-body {
+  padding: 28px 28px 24px;
+}
+
+.card-category {
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #c0282b;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.card-excerpt {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.card-date {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #b0a090;
+  font-weight: 300;
+}
+
+.card-arrow {
+  font-size: 0.7rem;
+  color: var(--gold-dim);
+  transition: transform 0.3s, color 0.3s;
+}
+
+.post-card:hover .card-arrow { transform: translateX(4px); color: var(--gold); }
+
+/* ── WIDE CARD (featured in grid) ── */
+.post-card.wide {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.post-card.wide .card-img-wrap {
+  aspect-ratio: auto;
+  min-height: 280px;
+}
+
+@media (max-width: 768px) {
+  .post-card.wide {
+    grid-column: span 1;
+    display: block;
+  }
+}
+
+/* ── DIVIDER ── */
+.editorial-divider {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--gold-dim);
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  opacity: 0.5;
+}
+
+/* ── QUOTE BLOCK ── */
+.pull-quote {
+  background: var(--cream);
+  padding: 60px 80px;
+  text-align: center;
+  margin: 2px 0;
+}
+
+.pull-quote blockquote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.5;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.pull-quote cite {
+  display: block;
+  font-family: 'Jost', sans-serif;
+  font-style: normal;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(253,248,240,0.6);
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .pull-quote { padding: 40px 28px; }
+}
+
+/* ── SIDEBAR STRIP ── */
+.content-with-sidebar {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+@media (max-width: 900px) {
+  .content-with-sidebar { grid-template-columns: 1fr; }
+}
+
+.sidebar-strip {
+  background: #1a0f08;
+  padding: 40px 32px;
+}
+
+.sidebar-strip h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 28px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-post {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.sidebar-post:hover { opacity: 0.7; }
+.sidebar-post:last-child { border-bottom: none; }
+
+.sidebar-post-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: rgba(201,169,110,0.1);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.sidebar-post-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.sidebar-post-date {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+/* ── CONNECT STRIP ── */
+.connect-strip {
+  background: #b8860b;
+  padding: 40px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.connect-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--text);
+}
+
+.connect-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.connect-btn {
+  display: inline-block;
+  padding: 11px 22px;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  transition: all 0.25s;
+  border-radius: 2px;
+}
+
+.connect-btn-dark {
+  background: var(--cream);
+  color: var(--gold);
+}
+
+.connect-btn-dark:hover { background: var(--warm); }
+
+.connect-btn-light {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(250,246,240,0.4);
+}
+
+.connect-btn-light:hover { background: rgba(250,246,240,0.1); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--cream);
+  padding: 48px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.footer-logo em { font-style: italic; color: var(--gold); }
+
+.footer-sub {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin: 12px 0 28px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.footer-links a {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(250,246,240,0.3);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+.footer-copy {
+  font-size: 0.62rem;
+  color: rgba(250,246,240,0.15);
+  letter-spacing: 0.08em;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* ── ERROR STATE ── */
+.error-state {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--muted);
+}
+
+.error-state h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.error-state p { font-size: 0.88rem; line-height: 1.7; }
+.error-state a { color: var(--gold-dim); }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-top">
+    <span class="masthead-date" id="today-date"></span>
+    <a class="masthead-back" href="/about.html">Sobre mí →</a>
+  </div>
+  <div class="masthead-center">
+    <span class="masthead-eyebrow">✦ Revista & Blog ✦</span>
+    <h1 class="masthead-title">Un <em>Planeta</em></h1>
+    <p class="masthead-tagline">Sueños · Belleza · Aventuras · Reflexiones desde Tijuana</p>
+    <div class="masthead-line"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="active">Inicio</a>
+    <a href="/about.html">Sobre mí</a>
+    <a href="https://unplanetaoficial.blogspot.com/search/label/reflexiones">Reflexiones</a>
+    <a href="https://unplanetaoficial.blogspot.com/search/label/poemas">Poesía</a>
+    <a href="https://unplanetaoficial.blogspot.com/search/label/viajes">Viajes</a>
+    <a href="https://www.instagram.com/janethphi" target="_blank">@janethphi</a>
+    <a href="https://wa.me/526632020133" target="_blank">Agendar cita</a>
+  </div>
+</nav>
+
+<!-- PAGE -->
+<div class="page-wrapper">
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterPosts('all', this)">Todo</button>
+    <button class="filter-btn" onclick="filterPosts('reflexiones', this)">Reflexiones</button>
+    <button class="filter-btn" onclick="filterPosts('poemas', this)">Poesía</button>
+    <button class="filter-btn" onclick="filterPosts('viajes', this)">Viajes</button>
+    <button class="filter-btn" onclick="filterPosts('sueños', this)">Sueños</button>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-state" id="loading" style="display:none">
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Cargando el universo...</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="blog-content">
+
+    <!-- HERO -->
+    <div id="hero-section"></div>
+
+    <!-- PULL QUOTE -->
+    <div class="pull-quote fade-in delay-2">
+      <blockquote>"Se diferente, se único, se tú mismo... cada persona es un planeta entero"</blockquote>
+      <cite>— Janeth Salazar · Un Planeta</cite>
+    </div>
+
+    <!-- SECTION HEADER -->
+    <div class="section-header fade-in delay-3">
+      <span class="section-title">✦ Últimas Entradas</span>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- GRID + SIDEBAR -->
+    <div class="content-with-sidebar">
+      <div id="posts-grid" class="posts-grid"></div>
+      <div class="sidebar-strip">
+        <h3>También te puede interesar</h3>
+        <div id="sidebar-posts"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-state" id="error-state" style="display:none">
+    <h3>No se pudo conectar al blog</h3>
+    <p>Visita el blog directamente en<br><a href="https://unplanetaoficial.blogspot.com" target="_blank">unplanetaoficial.blogspot.com</a></p>
+  </div>
+
+</div>
+
+<!-- CONNECT STRIP -->
+<!-- MUNDO MAGICO BANNER -->
+<div style="background:linear-gradient(135deg,#020810 0%,#0a1628 50%,#020810 100%);padding:48px;text-align:center;border-top:1px solid rgba(168,192,216,0.12);border-bottom:1px solid rgba(168,192,216,0.12);">
+  <span style="font-size:0.58rem;letter-spacing:0.4em;text-transform:uppercase;color:#c8a84a;display:block;margin-bottom:16px;">✦ Explora otro mundo ✦</span>
+  <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:700;color:#e8f0ff;margin-bottom:12px;letter-spacing:-0.01em;">Mundo <em style="font-style:italic;color:#a8c0d8;">Mágico</em></h2>
+  <p style="font-family:'EB Garamond',serif;font-style:italic;font-size:1rem;color:rgba(168,192,216,0.55);margin-bottom:28px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;">"El mundo de los sueños, en que todos somos capaces de ser diferentes... un mundo paralelo en el cual podemos vivir mejor"</p>
+  <a href="/mundo-magico.html" style="display:inline-flex;align-items:center;gap:10px;padding:13px 28px;font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:400;text-decoration:none;border:1px solid rgba(168,192,216,0.3);color:#d4e8ff;background:rgba(168,192,216,0.06);transition:all 0.3s;border-radius:2px;">🌙 Entrar al sueño</a>
+</div>
+
+<div class="connect-strip">
+  <div class="connect-text">¿Lista para transformar tus cejas? ✨</div>
+  <div class="connect-btns">
+    <a href="https://www.instagram.com/janethphi" target="_blank" class="connect-btn connect-btn-dark">📸 Ver mi trabajo</a>
+    <a href="https://wa.me/526632020133" target="_blank" class="connect-btn connect-btn-light">💬 Agendar cita</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Un <em>Planeta</em></div>
+  <div class="footer-sub">✦ Janeth Salazar · Tijuana, Baja California ✦</div>
+  <div class="footer-links">
+    <a href="https://unplaneta.mx">unplaneta.mx</a>
+    <a href="https://unplanetaoficial.blogspot.com" target="_blank">Blog Original</a>
+    <a href="https://www.instagram.com/dianizz_" target="_blank">@dianizz_</a>
+    <a href="https://www.instagram.com/janethphi" target="_blank">@janethphi</a>
+    <a href="https://wa.me/526632020133" target="_blank">WhatsApp</a>
+  </div>
+  <div class="footer-copy">© Un Planeta · Janeth Salazar · Todos los derechos reservados</div>
+</footer>
+
+<script>
+// ── DATE ──
+const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const now = new Date();
+document.getElementById('today-date').textContent = `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+// ── BLOGGER RSS FETCH ──
+const BLOG_URL = 'https://unplanetaoficial.blogspot.com';
+let allPosts = [];
+
+function stripHTML(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}
+
+function getExcerpt(content, len = 160) {
+  const text = stripHTML(content);
+  return text.length > len ? text.slice(0, len).trim() + '...' : text;
+}
+
+function getExcerptSafe(entry, len = 160) {
+  if (entry._excerpt) return entry._excerpt;
+  return getExcerpt(entry.content?.$t || entry.summary?.$t || '', len);
+}
+
+function getImage(entry) {
+  if (entry._img) return entry._img;
+  if (entry['media$thumbnail']) return entry['media$thumbnail'].url.replace('s72-c', 's800');
+  const cnt = entry.content?.$t || entry.summary?.$t || '';
+  const match = cnt.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (match) return match[1];
+  return null;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr || dateStr.length < 10) return dateStr || '';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  } catch(e) { return dateStr; }
+}
+
+function getLabels(entry) {
+  if (!entry.category) return [];
+  return entry.category.map(c => c.term).filter(Boolean);
+}
+
+function getPostUrl(entry) {
+  if (entry._url) return entry._url;
+  const link = entry.link?.find(l => l.rel === 'alternate');
+  return link ? link.href : 'https://unplanetaoficial.blogspot.com';
+}
+
+function getCategoryGlyph(labels) {
+  if (!labels.length) return '✍️';
+  const l = labels[0].toLowerCase();
+  if (l.includes('viaje') || l.includes('ensenada')) return '🗺️';
+  if (l.includes('poema') || l.includes('poesía')) return '🌸';
+  if (l.includes('sueño') || l.includes('oniro')) return '🌙';
+  if (l.includes('navidad') || l.includes('fé')) return '✨';
+  if (l.includes('amor') || l.includes('corazón')) return '💫';
+  return '✦';
+}
+
+// ── BUILD HERO ──
+function buildHero(post) {
+  const img = getImage(post);
+  const labels = getLabels(post);
+  const url = getPostUrl(post);
+  const title = post.title?.$t || 'Sin título';
+  const excerpt = getExcerpt(post.content?.$t || post.summary?.$t || '', 200);
+  const date = formatDate(post.published?.$t);
+  const cat = labels[0] || 'Blog';
+  const glyph = getCategoryGlyph(labels);
+
+  document.getElementById('hero-section').innerHTML = `
+    <div class="hero-post fade-in" onclick="window.open('${url}', '_blank')">
+      <div class="hero-img-wrap">
+        ${img
+          ? `<img src="${img}" alt="${title}" loading="lazy"/>`
+          : `<div class="hero-no-img"><span class="hero-no-img-glyph">${glyph}</span></div>`}
+      </div>
+      <div class="hero-content">
+        <div class="post-category">${cat}</div>
+        <h2 class="hero-title">${title}</h2>
+        <p class="hero-excerpt">${excerpt}</p>
+        <div class="hero-meta">
+          <span class="post-date">${date}</span>
+          <a class="read-link" href="${url}" target="_blank">Leer entrada →</a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ── BUILD GRID ──
+function buildGrid(posts) {
+  const grid = document.getElementById('posts-grid');
+  grid.innerHTML = '';
+
+  posts.forEach((post, i) => {
+    const img = getImage(post);
+    const labels = getLabels(post);
+    const url = getPostUrl(post);
+    const title = post.title?.$t || 'Sin título';
+    const excerpt = getExcerpt(post.content?.$t || post.summary?.$t || '', 120);
+    const date = formatDate(post.published?.$t);
+    const cat = labels[0] || 'Blog';
+    const glyph = getCategoryGlyph(labels);
+    const isWide = i === 2; // 3rd card is wide
+
+    const card = document.createElement('div');
+    card.className = `post-card${isWide ? ' wide' : ''} fade-in`;
+    card.style.animationDelay = `${0.1 + i * 0.07}s`;
+    card.onclick = () => window.open(url, '_blank');
+
+    card.innerHTML = `
+      <div class="card-img-wrap">
+        ${img
+          ? `<img src="${img}" alt="${title}" loading="lazy"/>`
+          : `<div class="card-no-img"><span class="card-no-img-glyph">${glyph}</span></div>`}
+      </div>
+      <div class="card-body">
+        <div class="card-category">${cat}</div>
+        <h3 class="card-title">${title}</h3>
+        <p class="card-excerpt">${excerpt}</p>
+        <div class="card-footer">
+          <span class="card-date">${date}</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ── BUILD SIDEBAR ──
+function buildSidebar(posts) {
+  const container = document.getElementById('sidebar-posts');
+  container.innerHTML = '';
+  const pick = posts.slice(0, 5);
+  pick.forEach((post, i) => {
+    const url = getPostUrl(post);
+    const title = post.title?.$t || 'Sin título';
+    const date = formatDate(post.published?.$t);
+    const div = document.createElement('div');
+    div.className = 'sidebar-post';
+    div.onclick = () => window.open(url, '_blank');
+    div.innerHTML = `
+      <div class="sidebar-post-num">0${i+1}</div>
+      <div class="sidebar-post-title">${title}</div>
+      <div class="sidebar-post-date">${date}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// ── FILTER ──
+function filterPosts(label, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  let filtered = allPosts;
+  if (label !== 'all') {
+    filtered = allPosts.filter(p => {
+      const labels = getLabels(p).map(l => l.toLowerCase());
+      return labels.some(l => l.includes(label));
+    });
+  }
+
+  if (filtered.length === 0) filtered = allPosts;
+  buildHero(filtered[0]);
+  buildGrid(filtered.slice(1, 8));
+  buildSidebar(filtered.slice(1));
+}
+
+// ── FETCH BLOGGER RSS ──
+function loadBlog() {
+  const posts = [
+    {
+      title: "La Navidad… Un salto de Fé…",
+      url: "https://unplanetaoficial.blogspot.com/2024/12/la-navidad-un-salto-de-fe.html",
+      date: "Diciembre 2024",
+      category: "Reflexiones",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiCIXnh_O0JWpL0nI-cXxQxWBjhJY8euRBnr9Uvv9Ojpcu51MGVzgjtscM0KATr7C4OjrAOyr4M1-ehyphenhyphenQL4kQ40EzRGWbNkd60CKuYWY0lGYMIMfD-xLKy2asdLnimc8FBWatXj4trPNMg6caD1HWbPqR7N74qcveuueRF68be3o6pVUsRwzpCPrcmIgF4l/s1600/IMG_8809.jpeg",
+      excerpt: "Sabes qué es lo bello de la mejor época de Navidad? Vivir, convivir, disfrutar... todo el momento es simplemente mágico. Porque dar un salto de Fé, es vivir un día más."
+    },
+    {
+      title: "Vivir es Increíble",
+      url: "https://unplanetaoficial.blogspot.com/2024/11/vivir-es-increbile.html",
+      date: "Noviembre 2024",
+      category: "Reflexiones",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg545NpDQz5dOcU-B5Ju5oJ6f61CiYWo1VE5ELe-wAFuyamw20fKmmgeAnwtBoKm20BWuFWnkvYc8fE1awFQk-TLPRQN0RHDvzk3fJ3DBogcpsOfHkKFjGAFxcG8qGdUPWZIQu53tR80HFYjWzIxmh0xxo_PLZxeH65iEMVqq35M9kmM2qrqgYYfVsVWjoR/s1600/IMG_0933.jpeg",
+      excerpt: "Crecer es indescriptible, es imperdonable e increíble. Todo lo que has vivido, está atrás, quedó grabado, escrito y en ocasiones olvidado. Pasan segundos, minutos, horas, días..."
+    },
+    {
+      title: "El Tiempo",
+      url: "https://unplanetaoficial.blogspot.com/2022/08/el-tiempo.html",
+      date: "Agosto 2022",
+      category: "Poesía",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj2itW4V8tUr2Zq6FAsM_QbNXlkwdH7gvM03yykbP_1oKFetJv_uPXUv9F0Ync5ZaTIFJVkvyZEmrofEMqrFWXHwe88d60_zaL4_AyRwAGGfy6xXdWp6cnSEYtLwmfqf9u-polEnPouUtWzYRLiXyrY2EaXhIKAVIucQaGUN-wNQl-giwG92P80Oa6Pag/s816/paso_del_tiempo.jpeg",
+      excerpt: "Es curioso ver pasar el tiempo, es curioso ver soplar el viento, es tedioso respirar en todo momento, es grandioso sonreír en cada intento..."
+    },
+    {
+      title: "Ensenada, Puerto Mágico",
+      url: "https://unplanetaoficial.blogspot.com/2018/11/ensenada-puerto-magico.html",
+      date: "Noviembre 2018",
+      category: "Viajes",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQF-EmguBGYbDvsKAJx9MrwCkgKiwDYDyZ0kL5WuME8-9qAgpLZH0oRN5uegZjE4t02iJCZoVQTpYwMytxrFLiGjySbZEXJIycl6-_49cNBp___QaUJitacRSA0QmI-T5ykAE8EZ1GxozU/s1600/ENSENADAA.jpg",
+      excerpt: "Ensenada es también conocida como La Bella Cenicienta del Pacífico. Se encuentra en una bahía natural de aguas tranquilas y hermosas vistas al mar..."
+    },
+    {
+      title: "No sabes lo afortunada que soy",
+      url: "https://unplanetaoficial.blogspot.com/2018/12/no-sabes-lo-afortunada-que-soy.html",
+      date: "Diciembre 2018",
+      category: "Poesía",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEisPagHb32t6ap1XUNUz-lDovs5WA_gxi-ikO_Yj9Scc5HRcWNxXXhu-OJcaaD4mAp_LoCym2DiPQ_mlxQ9udTrtoVFZ_oI61rSUd6b85Zpfsrv9YOTbH2EjAxpm1KLY0n6swSiWXP0vLf-/s1600/0ed831699f470f4f29dfe3069601d63d.jpg",
+      excerpt: "Sabes lo afortunada que soy de tenerte? De poder observar ese hermoso rostro mientras duermes, de acariciar tu cabello con mis dedos, de mirar tus ojos..."
+    },
+    {
+      title: "Tiempo de quedarse en casa",
+      url: "https://unplanetaoficial.blogspot.com/2020/03/tiempo-de-quedarse-en-casa.html",
+      date: "Marzo 2020",
+      category: "Reflexiones",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiBwpa7KP5f4pn8E9iv55w6BNeKppPm_CvmnMKdwndboVM1dccyqAzTDtvI_jXkWZtEl9RrlMl_C_5EjlmrWI5MI8EjS37kNnU5yt4rdmLGC-KgSiUQChozKGnGBguuA54GyXhosBuMcGr2/s1600/sintomascorona470.jpg",
+      excerpt: "Estamos viviendo una situación que no se había vivido. Pero ahora si puedo escribir, porque siento la necesidad de compartir lo que pienso..."
+    }
+  ];
+
+  allPosts = posts.map(p => ({
+    title: { $t: p.title },
+    content: { $t: p.excerpt },
+    published: { $t: p.date },
+    link: [{ rel: 'alternate', href: p.url }],
+    category: [{ term: p.category }],
+    'media$thumbnail': { url: p.img },
+    _hardcoded: true,
+    _date: p.date,
+    _img: p.img,
+    _url: p.url,
+    _excerpt: p.excerpt,
+    _category: p.category
+  }));
+
+  buildHero(allPosts[0]);
+  buildGrid(allPosts.slice(1));
+  buildSidebar(allPosts.slice(1));
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('blog-content').style.display = 'block';
+}
+
+loadBlog();
+</script>
+</body>
+</html>
