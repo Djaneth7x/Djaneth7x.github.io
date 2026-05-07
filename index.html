@@ -879,19 +879,27 @@ function getExcerpt(content, len = 160) {
   return text.length > len ? text.slice(0, len).trim() + '...' : text;
 }
 
+function getExcerptSafe(entry, len = 160) {
+  if (entry._excerpt) return entry._excerpt;
+  return getExcerpt(entry.content?.$t || entry.summary?.$t || '', len);
+}
+
 function getImage(entry) {
-  // Try media thumbnail
+  if (entry._img) return entry._img;
   if (entry['media$thumbnail']) return entry['media$thumbnail'].url.replace('s72-c', 's800');
-  // Try content for img tag
-  const content = entry.content?.$t || entry.summary?.$t || '';
-  const match = content.match(/<img[^>]+src=["']([^"']+)["']/i);
+  const cnt = entry.content?.$t || entry.summary?.$t || '';
+  const match = cnt.match(/<img[^>]+src=["']([^"']+)["']/i);
   if (match) return match[1];
   return null;
 }
 
 function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  if (!dateStr || dateStr.length < 10) return dateStr || '';
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  } catch(e) { return dateStr; }
 }
 
 function getLabels(entry) {
@@ -900,8 +908,9 @@ function getLabels(entry) {
 }
 
 function getPostUrl(entry) {
+  if (entry._url) return entry._url;
   const link = entry.link?.find(l => l.rel === 'alternate');
-  return link ? link.href : BLOG_URL;
+  return link ? link.href : 'https://unplanetaoficial.blogspot.com';
 }
 
 function getCategoryGlyph(labels) {
@@ -1028,31 +1037,79 @@ function filterPosts(label, btn) {
 }
 
 // ── FETCH BLOGGER RSS ──
-async function loadBlog() {
-  try {
-    const url = `https://api.allorigins.win/get?url=${encodeURIComponent('https://unplanetaoficial.blogspot.com/feeds/posts/default?alt=json&max-results=20')}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Feed error');
-    const raw = await res.json();
-    const data = JSON.parse(raw.contents);
-    const entries = data.feed?.entry || [];
+function loadBlog() {
+  const posts = [
+    {
+      title: "La Navidad… Un salto de Fé…",
+      url: "https://unplanetaoficial.blogspot.com/2024/12/la-navidad-un-salto-de-fe.html",
+      date: "Diciembre 2024",
+      category: "Reflexiones",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiCIXnh_O0JWpL0nI-cXxQxWBjhJY8euRBnr9Uvv9Ojpcu51MGVzgjtscM0KATr7C4OjrAOyr4M1-ehyphenhyphenQL4kQ40EzRGWbNkd60CKuYWY0lGYMIMfD-xLKy2asdLnimc8FBWatXj4trPNMg6caD1HWbPqR7N74qcveuueRF68be3o6pVUsRwzpCPrcmIgF4l/s1600/IMG_8809.jpeg",
+      excerpt: "Sabes qué es lo bello de la mejor época de Navidad? Vivir, convivir, disfrutar... todo el momento es simplemente mágico. Porque dar un salto de Fé, es vivir un día más."
+    },
+    {
+      title: "Vivir es Increíble",
+      url: "https://unplanetaoficial.blogspot.com/2024/11/vivir-es-increbile.html",
+      date: "Noviembre 2024",
+      category: "Reflexiones",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg545NpDQz5dOcU-B5Ju5oJ6f61CiYWo1VE5ELe-wAFuyamw20fKmmgeAnwtBoKm20BWuFWnkvYc8fE1awFQk-TLPRQN0RHDvzk3fJ3DBogcpsOfHkKFjGAFxcG8qGdUPWZIQu53tR80HFYjWzIxmh0xxo_PLZxeH65iEMVqq35M9kmM2qrqgYYfVsVWjoR/s1600/IMG_0933.jpeg",
+      excerpt: "Crecer es indescriptible, es imperdonable e increíble. Todo lo que has vivido, está atrás, quedó grabado, escrito y en ocasiones olvidado. Pasan segundos, minutos, horas, días..."
+    },
+    {
+      title: "El Tiempo",
+      url: "https://unplanetaoficial.blogspot.com/2022/08/el-tiempo.html",
+      date: "Agosto 2022",
+      category: "Poesía",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj2itW4V8tUr2Zq6FAsM_QbNXlkwdH7gvM03yykbP_1oKFetJv_uPXUv9F0Ync5ZaTIFJVkvyZEmrofEMqrFWXHwe88d60_zaL4_AyRwAGGfy6xXdWp6cnSEYtLwmfqf9u-polEnPouUtWzYRLiXyrY2EaXhIKAVIucQaGUN-wNQl-giwG92P80Oa6Pag/s816/paso_del_tiempo.jpeg",
+      excerpt: "Es curioso ver pasar el tiempo, es curioso ver soplar el viento, es tedioso respirar en todo momento, es grandioso sonreír en cada intento..."
+    },
+    {
+      title: "Ensenada, Puerto Mágico",
+      url: "https://unplanetaoficial.blogspot.com/2018/11/ensenada-puerto-magico.html",
+      date: "Noviembre 2018",
+      category: "Viajes",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQF-EmguBGYbDvsKAJx9MrwCkgKiwDYDyZ0kL5WuME8-9qAgpLZH0oRN5uegZjE4t02iJCZoVQTpYwMytxrFLiGjySbZEXJIycl6-_49cNBp___QaUJitacRSA0QmI-T5ykAE8EZ1GxozU/s1600/ENSENADAA.jpg",
+      excerpt: "Ensenada es también conocida como La Bella Cenicienta del Pacífico. Se encuentra en una bahía natural de aguas tranquilas y hermosas vistas al mar..."
+    },
+    {
+      title: "No sabes lo afortunada que soy",
+      url: "https://unplanetaoficial.blogspot.com/2018/12/no-sabes-lo-afortunada-que-soy.html",
+      date: "Diciembre 2018",
+      category: "Poesía",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEisPagHb32t6ap1XUNUz-lDovs5WA_gxi-ikO_Yj9Scc5HRcWNxXXhu-OJcaaD4mAp_LoCym2DiPQ_mlxQ9udTrtoVFZ_oI61rSUd6b85Zpfsrv9YOTbH2EjAxpm1KLY0n6swSiWXP0vLf-/s1600/0ed831699f470f4f29dfe3069601d63d.jpg",
+      excerpt: "Sabes lo afortunada que soy de tenerte? De poder observar ese hermoso rostro mientras duermes, de acariciar tu cabello con mis dedos, de mirar tus ojos..."
+    },
+    {
+      title: "Tiempo de quedarse en casa",
+      url: "https://unplanetaoficial.blogspot.com/2020/03/tiempo-de-quedarse-en-casa.html",
+      date: "Marzo 2020",
+      category: "Reflexiones",
+      img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiBwpa7KP5f4pn8E9iv55w6BNeKppPm_CvmnMKdwndboVM1dccyqAzTDtvI_jXkWZtEl9RrlMl_C_5EjlmrWI5MI8EjS37kNnU5yt4rdmLGC-KgSiUQChozKGnGBguuA54GyXhosBuMcGr2/s1600/sintomascorona470.jpg",
+      excerpt: "Estamos viviendo una situación que no se había vivido. Pero ahora si puedo escribir, porque siento la necesidad de compartir lo que pienso..."
+    }
+  ];
 
-    if (entries.length === 0) throw new Error('No entries');
+  allPosts = posts.map(p => ({
+    title: { $t: p.title },
+    content: { $t: p.excerpt },
+    published: { $t: p.date },
+    link: [{ rel: 'alternate', href: p.url }],
+    category: [{ term: p.category }],
+    'media$thumbnail': { url: p.img },
+    _hardcoded: true,
+    _date: p.date,
+    _img: p.img,
+    _url: p.url,
+    _excerpt: p.excerpt,
+    _category: p.category
+  }));
 
-    allPosts = entries;
+  buildHero(allPosts[0]);
+  buildGrid(allPosts.slice(1));
+  buildSidebar(allPosts.slice(1));
 
-    buildHero(entries[0]);
-    buildGrid(entries.slice(1, 8));
-    buildSidebar(entries.slice(1, 6));
-
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('blog-content').style.display = 'block';
-
-  } catch(e) {
-    console.error(e);
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('error-state').style.display = 'block';
-  }
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('blog-content').style.display = 'block';
 }
 
 loadBlog();
