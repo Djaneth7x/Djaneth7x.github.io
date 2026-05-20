@@ -101,6 +101,197 @@ footer { position:relative; z-index:2; background:var(--night); border-top:1px s
 .fade-in { opacity:0; animation:fadeUp 0.7s ease forwards; }
 .reveal { opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity:1; transform:translateY(0); }
+
+/* DISCORD SECTION */
+.discord-section {
+  position:relative; z-index:2;
+  background:linear-gradient(135deg, #0a0f2e 0%, #050918 50%, #0a0f2e 100%);
+  border-top:1px solid rgba(114,137,218,0.3);
+  border-bottom:1px solid rgba(114,137,218,0.3);
+  padding:80px 48px;
+  text-align:center;
+  overflow:hidden;
+}
+.discord-section::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 50%, rgba(114,137,218,0.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.discord-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(114,137,218,0.15);
+  border:1px solid rgba(114,137,218,0.4);
+  border-radius:30px;
+  padding:6px 18px;
+  font-size:0.6rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:#7289da;
+  margin-bottom:24px;
+}
+.discord-title {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:400;
+  color:#e8f0ff;
+  margin-bottom:16px;
+  line-height:1.2;
+}
+.discord-title span { color:#7289da; }
+.discord-desc {
+  font-family:'Crimson Pro',serif;
+  font-style:italic;
+  font-size:1.05rem;
+  color:rgba(168,192,216,0.6);
+  max-width:560px;
+  margin:0 auto 48px;
+  line-height:1.8;
+}
+.discord-channels {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  max-width:900px;
+  margin:0 auto 48px;
+}
+@media(max-width:768px) { .discord-channels { grid-template-columns:1fr; } .discord-section { padding:60px 24px; } }
+@media(max-width:900px) and (min-width:769px) { .discord-channels { grid-template-columns:repeat(2,1fr); } }
+.channel-card {
+  background:rgba(5,9,26,0.8);
+  border:1px solid rgba(114,137,218,0.15);
+  padding:28px 24px;
+  text-align:left;
+  transition:all 0.3s;
+}
+.channel-card:hover {
+  border-color:rgba(114,137,218,0.4);
+  transform:translateY(-3px);
+  background:rgba(10,15,46,0.9);
+}
+.channel-name {
+  font-family:'Cinzel',serif;
+  font-size:0.85rem;
+  color:#d4e8ff;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.channel-hash { color:#7289da; font-size:1rem; }
+.channel-desc {
+  font-size:0.78rem;
+  color:rgba(168,192,216,0.5);
+  line-height:1.6;
+  font-family:'Crimson Pro',serif;
+  font-style:italic;
+}
+.discord-cta {
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  padding:16px 36px;
+  background:linear-gradient(135deg, #5865f2, #7289da);
+  border-radius:4px;
+  font-family:'Jost',sans-serif;
+  font-size:0.75rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:white;
+  text-decoration:none;
+  font-weight:500;
+  transition:all 0.3s;
+  box-shadow:0 8px 32px rgba(88,101,242,0.3);
+  cursor:none;
+  margin-bottom:16px;
+}
+.discord-cta:hover {
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px rgba(88,101,242,0.5);
+}
+.discord-cta-icon { font-size:1.2rem; }
+.discord-members {
+  font-size:0.65rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(168,192,216,0.35);
+  margin-top:8px;
+}
+.premium-banner {
+  background:linear-gradient(135deg, rgba(200,168,74,0.12) 0%, rgba(200,168,74,0.06) 100%);
+  border:1px solid rgba(200,168,74,0.3);
+  border-radius:4px;
+  padding:28px 36px;
+  max-width:700px;
+  margin:48px auto 0;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.premium-banner::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0; height:1px;
+  background:linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.premium-tag {
+  font-size:0.6rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:12px;
+  display:block;
+}
+.premium-title {
+  font-family:'Cinzel',serif;
+  font-size:1.3rem;
+  color:#e8f0ff;
+  margin-bottom:12px;
+}
+.premium-desc {
+  font-family:'Crimson Pro',serif;
+  font-style:italic;
+  font-size:0.95rem;
+  color:rgba(168,192,216,0.6);
+  margin-bottom:20px;
+  line-height:1.7;
+}
+.premium-price {
+  font-family:'Cinzel',serif;
+  font-size:1.8rem;
+  color:var(--gold);
+  margin-bottom:16px;
+}
+.premium-price span {
+  font-size:0.9rem;
+  color:rgba(200,168,74,0.6);
+}
+.btn-premium {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:13px 28px;
+  background:var(--gold);
+  color:#020810;
+  font-family:'Jost',sans-serif;
+  font-size:0.7rem;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  text-decoration:none;
+  font-weight:600;
+  transition:all 0.3s;
+  cursor:none;
+  border-radius:2px;
+}
+.btn-premium:hover {
+  background:#e8d070;
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(200,168,74,0.3);
+}
+
 body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); opacity:0.02; pointer-events:none; z-index:999; }
 @media(max-width:768px) { .page{padding:140px 20px 80px;} nav{padding:0 20px;} .articles-grid{grid-template-columns:1fr;} .article-card.featured{grid-column:span 1;display:block;} .diary-grid{grid-template-columns:1fr;} .full-article{padding:36px 24px;} .community-form{padding:28px 20px;} }
 </style>
@@ -401,6 +592,67 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
   <circle cx="30" cy="100" r="1" fill="rgba(200,168,74,0.6)"><animate attributeName="cy" values="100;80;100" dur="4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0;0.6" dur="4s" repeatCount="indefinite"/></circle>
   <circle cx="120" cy="140" r="1.2" fill="rgba(212,232,255,0.5)"><animate attributeName="cy" values="140;118;140" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0;0.5" dur="3.5s" repeatCount="indefinite"/></circle>
 </svg>
+</div>
+
+
+<!-- DISCORD SECTION -->
+<div class="discord-section">
+  <div class="discord-badge">
+    <span>🌙</span> Comunidad en Discord
+  </div>
+  <h2 class="discord-title">Únete a <span>Mundo Mágico</span></h2>
+  <p class="discord-desc">
+    Un espacio donde onironautas de todo el mundo comparten sus sueños,
+    aprenden técnicas y exploran juntos el universo nocturno.
+    Tú también perteneces aquí.
+  </p>
+
+  <div class="discord-channels">
+    <div class="channel-card">
+      <div class="channel-name"><span class="channel-hash">#</span> diario-de-sueños</div>
+      <p class="channel-desc">Comparte tu sueño de anoche. Sin juzgar, sin filtros. Solo tu experiencia.</p>
+    </div>
+    <div class="channel-card">
+      <div class="channel-name"><span class="channel-hash">#</span> interpreta-tu-sueño</div>
+      <p class="channel-desc">¿Un sueño que no entiendes? La comunidad te ayuda a explorarlo.</p>
+    </div>
+    <div class="channel-card">
+      <div class="channel-name"><span class="channel-hash">#</span> técnicas-lúcidas</div>
+      <p class="channel-desc">MILD, WBTB, Reality Checks — aprendemos y compartimos resultados.</p>
+    </div>
+    <div class="channel-card">
+      <div class="channel-name"><span class="channel-hash">#</span> experiencias</div>
+      <p class="channel-desc">Todo lo que no cabe en otra categoría. Momentos mágicos bienvenidos.</p>
+    </div>
+    <div class="channel-card">
+      <div class="channel-name"><span class="channel-hash">#</span> sincronías</div>
+      <p class="channel-desc">¿Un sueño que se hizo realidad? ¿Una señal del universo? Cuéntanos.</p>
+    </div>
+    <div class="channel-card" style="background:rgba(200,168,74,0.06); border-color:rgba(200,168,74,0.2);">
+      <div class="channel-name" style="color:var(--gold);">🔒 premium</div>
+      <p class="channel-desc" style="color:rgba(200,168,74,0.5);">Contenido exclusivo para miembros premium. Técnicas avanzadas y más.</p>
+    </div>
+  </div>
+
+  <a href="https://discord.gg/BKeUmRDbBe" target="_blank" class="discord-cta">
+    <span class="discord-cta-icon">🌙</span>
+    Entrar a Mundo Mágico — Es Gratis
+  </a>
+  <div class="discord-members">✦ Comunidad de onironautas · Únete ahora ✦</div>
+
+  <!-- PREMIUM BANNER -->
+  <div class="premium-banner">
+    <span class="premium-tag">✦ Membresía Premium ✦</span>
+    <h3 class="premium-title">Guía de Sueños Lúcidos</h3>
+    <p class="premium-desc">
+      Tu primer paso como onironauta. 8 capítulos, técnicas probadas,
+      diario de 30 días y acceso al canal premium de Discord.
+    </p>
+    <div class="premium-price">$145 MXN <span>/ pago único (IVA incluido)</span></div>
+    <a href="https://pay.hotmart.com/X105869474P" target="_blank" class="btn-premium">
+      ✨ Obtener la Guía
+    </a>
+  </div>
 </div>
 
 <footer>
